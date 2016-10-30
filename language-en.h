@@ -1,5 +1,5 @@
 //*****************************************************************************
-unsigned char *msg[] = {
+const char *msg[] = {
 //0123456789ABCDEF
 	"==== STANDBY ===",	// 1
 	"===== MUTE =====",	// 2
@@ -21,7 +21,7 @@ unsigned char *msg[] = {
 };
 
 //*****************************************************************************
-unsigned char *mainmenu[] = {
+const char *mainmenu[] = {
 //0123456789ABCDEF
 	"Volume    ",		// 1
 	"Attens    ",		// 2
@@ -34,7 +34,7 @@ unsigned char *mainmenu[] = {
 };
 
 //*****************************************************************************
-unsigned char *optionmenu[] = {
+const char *optionmenu[] = {
 //0123456789ABCDEF
 	"Set Time : Hour ",	// 1
 	"Set Time : Min  ",	// 2

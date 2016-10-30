@@ -35,7 +35,7 @@ void lcd(unsigned char p);
 void lcd_init(void);
 void lcd_com(unsigned char p);
 void lcd_dat(unsigned char p);
-void lcd_puts(unsigned char *data);
+void lcd_puts(const char *data);
 void lcd_clear(void);
 void lcd_definechar(const uint8_t * pc, uint8_t char_code);
 void lcdprogress_bar(uint8_t progress, uint8_t maxprogress, uint8_t length);

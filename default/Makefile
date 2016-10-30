@@ -5,7 +5,12 @@
 ## General Flags
 PROJECT = preamp_2_plus
 MCU = atmega16
-TARGET = preamp_2_plus.elf
+AVRDUDE_TARGET = m16
+AVRDUDE_ADAPTER = usbtiny
+
+PRG = preamp_2_plus
+TARGET = $(PRG).elf
+
 CC = avr-gcc
 
 CPP = avr-g++
@@ -78,6 +83,9 @@ size: ${TARGET}
 	@echo
 	@avr-size -C --mcu=${MCU} ${TARGET}
 
+flash: $(PRG).hex
+	        avrdude -c $(AVRDUDE_ADAPTER) -p $(AVRDUDE_TARGET) -U flash:w:$<:i
+
 ## Clean target
 .PHONY: clean
 clean:
@@ -85,5 +93,5 @@ clean:
 
 
 ## Other dependencies
--include $(shell mkdir dep 2>NUL) $(wildcard dep/*)
+-include $(shell mkdir dep 2>/dev/null) $(wildcard dep/*)
 

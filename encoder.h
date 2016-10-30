@@ -1,43 +1,39 @@
 //*****************************************************************************
+const int8_t enc_states[] = {
+	/*
+	 * old / new
+	 * 00	00 01 10 11
+	 * 01	00 01 10 11
+	 * 10	00 01 10 11
+	 * 11	00 01 10 11
+	 */
+	0,-1,1,0,
+	1,0,0,-1,
+	-1,0,0,1,
+	0,1,-1,0
+};
 void encoder_scan(void)
 {
+	unsigned char enc_A = 0, enc_B = 0;
+	static uint8_t old_AB = 0;
+
 	cli();
-	unsigned char enc_A, enc_B, bit_0, bit_1;
-	if (bit_is_clear(ENCODER_PIN_PORT, ENCODER_PIN_A))
-		enc_A = 0;
-	else
-		enc_A = 1;
-	if (bit_is_clear(ENCODER_PIN_PORT, ENCODER_PIN_B))
-		enc_B = 0;
-	else
-		enc_B = 1;
-	if (bit_is_clear(encoder_status, 0))
-		bit_0 = 0;
-	else
-		bit_0 = 1;
-	if (bit_is_clear(encoder_status, 1))
-		bit_1 = 0;
-	else
-		bit_1 = 1;
-	if ((enc_A != bit_0) || (enc_B != bit_1)) {
-		encoder_status = encoder_status << 2;
-		if (enc_A == 0)
-			encoder_status &= ~(_BV(0));
-		else
-			encoder_status |= _BV(0);
-		if (enc_B == 0)
-			encoder_status &= ~(_BV(1));
-		else
-			encoder_status |= _BV(1);
-		if (encoder_status == enc_mask_minus) {
-			enc.code = ENCODER_LEFT;
-			enc.flip = 1;
-		}
-		if (encoder_status == enc_mask_plus) {
-			enc.code = ENCODER_RIGHT;
-			enc.flip = 1;
-		}
+
+	enc_A = !!bit_is_set(ENCODER_PIN_PORT, ENCODER_PIN_A);
+	enc_B = !!bit_is_set(ENCODER_PIN_PORT, ENCODER_PIN_B);
+
+
+	old_AB <<= 2;                   //remember previous state
+	old_AB |= (enc_A << 1) | enc_B; //add current state
+
+	if (enc_states[old_AB & 0x0f] == 1) {
+		enc.code = ENCODER_RIGHT;
+		enc.flip = 1;
+	} else if (enc_states[old_AB & 0x0f] == -1) {
+		enc.code = ENCODER_LEFT;
+		enc.flip = 1;
 	}
+
 	sei();
 }
 

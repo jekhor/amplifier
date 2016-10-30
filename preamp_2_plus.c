@@ -79,7 +79,7 @@ void main_init(void)
 	timers_init();
 	encoder_init();
 	n_ds_found_cnt = search_sensors();
-	main_delay(32);
+	main_delay(4);
 
 	ds_state = 0;
 	temperature1 = 0;
@@ -129,7 +129,7 @@ void timers_init(void)
 
 //*****************************************************************************
 //ISR(SIG_OVERFLOW1)
-ISR(TIMER0_OVF_vect)
+ISR(TIMER1_OVF_vect)
 {
 	TCNT1H = TIMER1_CNT1H;
 	TCNT1L = TIMER1_CNT1L;
@@ -611,15 +611,19 @@ int main()
 	cli();
 	main_init();
 	load_EEprom_param();
+
 	if (eeprom_read_byte((uint8_t *) RC5_KEY_SAVE_ADR) != 'T') {
 		save_EEprom_Rc5key();
 	}
+
 	load_EEprom_Rc5key();
 	l_standby = 1;
+
 	if (stb_out)
 		PORT_PIN_STANDBY_OUT |= _BV(PIN_STANDBY_OUT);
 	else
 		PORT_PIN_STANDBY_OUT &= ~(_BV(PIN_STANDBY_OUT));
+
 	set_standby(0);
 	set_select();
 	beep();

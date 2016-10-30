@@ -259,8 +259,8 @@ void save_EEprom_Rc5key(void);
 void save_param(void);
 //*****************************************************************************
 volatile char encoder_status;
-const char enc_mask_plus = 0 b00011110;
-const char enc_mask_minus = 0 b00101101;
+const char enc_mask_plus = 0x1E; // b00011110;
+const char enc_mask_minus = 0x2D; // b00101101;
 typedef struct {
 	uint8_t code;
 	volatile signed char flip;
@@ -377,7 +377,7 @@ unsigned char menu_max[] = { 64, 4, 16, 16, 31, 31, 31, 31 };
 #define SET_RC5_KEY_DEF  8
 #define SET_STB_OUT      9
 // ............................................................................
-unsigned char *msg_1[] = {
+const char *msg_1[] = {
 //0123456789ABCDEF
 	" ---"			// 1
 };

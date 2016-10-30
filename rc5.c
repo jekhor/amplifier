@@ -71,7 +71,7 @@ void rc5_init(uint8_t addr)
 }
 
 /* ******************************************************************************** */
-SIGNAL(SIG_OVERFLOW0)
+ISR(TIMER0_OVF0_vect)
 {
 	TIMSK &= ~(1 << TOIE0);
 	uint8_t _nbits = nbits;
@@ -117,9 +117,9 @@ SIGNAL(SIG_OVERFLOW0)
 /* ******************************************************************************** */
 
 #if (RC5_INT == RC5_INT0)
-SIGNAL(SIG_INTERRUPT0)
+ISR(INT0_vect)
 #elif (RC5_INT == RC5_INT1)
-SIGNAL(SIG_INTERRUPT1)
+ISR(INT1_vect)
 #endif				/* RC5_INT */
 {
 	if (rc5.flip == -1) {
