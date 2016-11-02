@@ -1,0 +1,20 @@
+Разъём SPI: 
+
+1 - VCC
+2 - GND
+3 - MISO
+4 - SCK
+5 - RST
+6 - MOSI
+
+
+
+Кнопки:
+
+
+MUTE	UP	LOUDNESS	In1
+
+LEFT	SET	RIGHT		In2
+
+STANDBY	DOWN	MENU		In3
+
